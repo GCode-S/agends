@@ -1,0 +1,12 @@
+export interface Appointment {
+  id?: number
+  clientName: string
+  startAt: string
+  createdAt: string
+}
+
+export interface AppointmentDraft {
+  clientName: string
+  date: string
+  time: string
+}

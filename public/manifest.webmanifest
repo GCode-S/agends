@@ -1,0 +1,25 @@
+{
+  "name": "Agenda das Clientes",
+  "short_name": "Agends",
+  "description": "Agenda offline para gerenciamento de clientes",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff7fb",
+  "theme_color": "#e11d66",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
