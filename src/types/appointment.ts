@@ -3,6 +3,7 @@ export interface Appointment {
   clientName: string
   startAt: string
   createdAt: string
+  isPaid: boolean
 }
 
 export interface AppointmentDraft {

@@ -5,11 +5,14 @@ import type { Appointment } from '../types/appointment'
 
 interface AppointmentCardProps {
   appointment: Appointment
+  onTogglePaid: (appointment: Appointment, isPaid: boolean) => void
   onEdit: (appointment: Appointment) => void
   onDelete: (appointment: Appointment) => void
 }
 
-export function AppointmentCard({ appointment, onEdit, onDelete }: AppointmentCardProps) {
+export function AppointmentCard({ appointment, onTogglePaid, onEdit, onDelete }: AppointmentCardProps) {
+  const checkboxId = `appointment-paid-${appointment.id ?? 'new'}`
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -30,6 +33,28 @@ export function AppointmentCard({ appointment, onEdit, onDelete }: AppointmentCa
       </div>
 
       <div className="mt-3 flex items-center justify-end gap-2">
+        <label
+          htmlFor={checkboxId}
+          className="mr-auto inline-flex cursor-pointer items-center gap-2.5 rounded-full border border-emerald-200/70 bg-emerald-50/40 px-2.5 py-1.5"
+        >
+          <input
+            id={checkboxId}
+            type="checkbox"
+            checked={appointment.isPaid}
+            onChange={(event) => onTogglePaid(appointment, event.target.checked)}
+            className="peer sr-only"
+          />
+          <span
+            aria-hidden="true"
+            className="flex h-5 w-5 items-center justify-center rounded-md border border-zinc-300 bg-white text-transparent transition peer-checked:border-emerald-600 peer-checked:bg-emerald-600 peer-checked:text-white"
+          >
+            ✓
+          </span>
+          <span className="text-xs font-semibold text-zinc-700">
+            {appointment.isPaid ? 'Pagamento confirmado' : 'Pagamento pendente'}
+          </span>
+        </label>
+
         <motion.button
           type="button"
           whileTap={{ scale: 0.95 }}

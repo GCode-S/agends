@@ -34,6 +34,7 @@ function App() {
     closeReminder,
     addAppointment,
     updateAppointment,
+    setAppointmentPaid,
     deleteAppointment,
     clearAllAppointments,
   } = useAgendaStore()
@@ -105,6 +106,14 @@ function App() {
 
     await deleteAppointment(deletingAppointment.id)
     setDeletingAppointment(null)
+  }
+
+  const handleTogglePaid = async (appointment: Appointment, isPaid: boolean): Promise<void> => {
+    if (!appointment.id) {
+      return
+    }
+
+    await setAppointmentPaid(appointment.id, isPaid)
   }
 
   const handleDeleteAll = async (): Promise<void> => {
@@ -225,6 +234,7 @@ function App() {
                   <AppointmentCard
                     key={appointment.id}
                     appointment={appointment}
+                    onTogglePaid={handleTogglePaid}
                     onEdit={setEditingAppointment}
                     onDelete={setDeletingAppointment}
                   />

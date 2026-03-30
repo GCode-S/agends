@@ -16,6 +16,7 @@ interface AgendaState {
   closeReminder: () => void
   addAppointment: (draft: AppointmentDraft) => Promise<void>
   updateAppointment: (id: number, draft: AppointmentDraft) => Promise<void>
+  setAppointmentPaid: (id: number, isPaid: boolean) => Promise<void>
   deleteAppointment: (id: number) => Promise<void>
   clearAllAppointments: () => Promise<void>
 }
@@ -108,6 +109,7 @@ export const useAgendaStore = create<AgendaState>((set, get) => ({
       clientName: draft.clientName.trim(),
       startAt: date.toISOString(),
       createdAt: new Date().toISOString(),
+      isPaid: false,
     })
 
     const appointments = await db.appointments.orderBy('startAt').toArray()
@@ -149,6 +151,18 @@ export const useAgendaStore = create<AgendaState>((set, get) => ({
     if (!isSameDay(currentSelectedDate, date)) {
       set({ selectedDate: date })
     }
+  },
+
+  setAppointmentPaid: async (id, isPaid) => {
+    await db.appointments.update(id, { isPaid })
+
+    const appointments = await db.appointments.orderBy('startAt').toArray()
+    const reminders = computeReminders(appointments)
+
+    set({
+      appointments,
+      reminders,
+    })
   },
 
   deleteAppointment: async (id) => {
